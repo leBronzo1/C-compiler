@@ -1,21 +1,85 @@
 #include "../include/lexer.hpp"
-#include <fstream>
+
 #include <iostream>
-#include <cstdlib>
+#include <cctype>
 
 namespace compiler::lxr {
   Lexer::Lexer(const std::string &filename) {
-    file.open(filename, std::ios::in | std::ios::out | std::ios::app); // means inpout, output, write to end of file(EOF)
+    file.open(filename, std::ios::in);
     if(!file.is_open()) {
       std::cout << "Can't open file will include some kind of bool in class for fails" << std::endl;
       std::exit(-1);
     }
+
+    keywords = {
+        {"int", token::TokenTypes::Int},
+        {"return", token::TokenTypes::Return},
+        {"(", token::TokenTypes::Lparen},
+        {")", token::TokenTypes::Rparen},
+        {"[", token::TokenTypes::Lbrack},
+        {"]", token::TokenTypes::Rbrack},
+        {"+", token::TokenTypes::Plus},
+        {"-", token::TokenTypes::Minus}
+    };
   }
 
   std::vector<token::Token> Lexer::tokenize() {
-    while(file.get()) {
-      // Logic to be added after parser is done:
+    std::vector<token::Token> tokens;
+    char current;
+
+    /*
+    Loops through file one char at a time then checks if its a letter (If is number looks 
+    through until space/non letter apperars then searches map for a match otherwise its 
+    considered an identifier) similar for numbers minus and the identifier just read it
+    a bit I dont want to write an essay should be self explanitory at the end checks
+    for EOF
+    */
+   
+    while (file.get(current)) {
+        if (std::isspace(static_cast<unsigned char>(current))) continue;
+
+        if (std::isalpha(static_cast<unsigned char>(current)) || current == '_') {
+            std::string word;
+            word += current;
+
+            while (file.peek() != EOF &&
+                  (std::isalnum(static_cast<unsigned char>(file.peek())) || file.peek() == '_')) {
+                word += static_cast<char>(file.get());
+            }
+
+            auto index = keywords.find(word);
+
+            if (index != keywords.end()) {
+                tokens.push_back({index->second, word});
+            } else {
+                tokens.push_back({token::TokenTypes::Identifier, word});
+            }
+        } else if (std::isdigit(static_cast<unsigned char>(current))) {
+            std::string number;
+            number += current;
+
+            while (file.peek() != EOF &&
+                  std::isdigit(static_cast<unsigned char>(file.peek()))) {
+                number += static_cast<char>(file.get());
+            }
+
+            tokens.push_back({token::TokenTypes::Number, number});
+        } else {
+            std::string symbol(1, current);
+
+            auto index = keywords.find(symbol);
+
+            if (index != keywords.end()) {
+                tokens.push_back({index->second, symbol});
+            } else {
+                std::cerr << "Unknown symbol: " << symbol << '\n';
+            }
+        }
     }
+
+    tokens.push_back({token::TokenTypes::EndOfFile, ""});
+
     return tokens;
+
   }
 }

@@ -33,3 +33,24 @@ Other build commands:
 make clean    # Remove the executable, object files, and generated dependency files
 make rebuild  # Clean and rebuild the project
 ```
+
+## Running tests
+
+The test programs read a C source file and print the tokens or parsed syntax tree
+for inspection. They return a nonzero exit code if lexing or parsing fails; they
+do not compare the output against an expected result.
+
+```sh
+make test         # Build and run both tests using tests/sample.c
+make test-lexer   # Print the tokens
+make test-parser  # Print the abstract syntax tree
+```
+
+To use your own source file:
+
+```sh
+make test TEST_FILE=test.c
+make test-parser TEST_FILE=path/to/source.c
+```
+
+`make clean` also removes the test executables and their build files.

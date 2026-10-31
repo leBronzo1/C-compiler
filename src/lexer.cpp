@@ -42,8 +42,7 @@ namespace compiler::lxr {
     Loops through file one char at a time then checks if its a letter (If is number looks 
     through until space/non letter apperars then searches map for a match otherwise its 
     considered an identifier) similar for numbers minus and the identifier just read it
-    a bit I dont want to write an essay should be self explanitory at the end checks
-    for EOF
+    a bit I dont want to write an essay should be self explanitory
     */
 
     while (file.get(current)) {

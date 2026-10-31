@@ -2,3 +2,5 @@
 *.d
 compiler
 test.c
+.vscode
+/tests/*_test

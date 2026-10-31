@@ -1,7 +1,7 @@
 #include <string>
 #include <fstream>
 
-#include "lexer.hpp"
+#include "include/lexer.hpp"
 
 int main(int argc, char* argv[]) {
   std::string filename = argv[1];

@@ -2,10 +2,16 @@
 
 #include <iostream>
 #include <cctype>
+#include <filesystem>
 #include <stdexcept>
 
 namespace compiler::lxr {
   Lexer::Lexer(const std::string &filename) {
+    // Some file streams report EOF when reading a directory instead of a read error.
+    if (std::filesystem::is_directory(filename)) {
+      throw std::runtime_error("Can't read source file: path is a directory");
+    }
+
     file.open(filename, std::ios::in);
     if(!file.is_open()) {
       std::cout << "Can't open file will include some kind of bool in class for fails" << std::endl;
@@ -81,6 +87,10 @@ namespace compiler::lxr {
                 throw std::runtime_error("Unknown symbol: " + symbol);
             }
         }
+    }
+
+    if (file.bad() || !file.eof()) {
+        throw std::runtime_error("Failed to read source file");
     }
 
     tokens.push_back({token::TokenTypes::EndOfFile, ""});

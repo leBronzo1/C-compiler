@@ -9,7 +9,6 @@ namespace compiler::psr {
             const token::Token& current = tokens[position];
 
             
-
             ++position;
         }
 }

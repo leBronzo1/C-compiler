@@ -4,17 +4,21 @@
 #include <cstdint>
 
 namespace compiler::token{
-  // Enum representing different types of tokens in the source code
-  enum class TokenTypes: std::uint16_t { //256 too small for all possible token types
+  // Enum representing different types of tokens in the source code 256 too small for all possible token types
+  enum class TokenTypes: std::uint16_t {
     Int,
     Return,
     Lparen,
     Rparen,
     Lbrack,
     Rbrack,
+    Lbrace,
+    Rbrace,
+    Semicolon,
     Plus,
     Minus,
     Number,
+    Equals,
     Identifier,
     EndOfFile
   };

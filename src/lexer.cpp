@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cctype>
+#include <stdexcept>
 
 namespace compiler::lxr {
   Lexer::Lexer(const std::string &filename) {
@@ -19,7 +20,11 @@ namespace compiler::lxr {
         {"[", token::TokenTypes::Lbrack},
         {"]", token::TokenTypes::Rbrack},
         {"+", token::TokenTypes::Plus},
-        {"-", token::TokenTypes::Minus}
+        {"-", token::TokenTypes::Minus},
+        {"=", token::TokenTypes::Equals},
+        {"{", token::TokenTypes::Lbrace},
+        {"}", token::TokenTypes::Rbrace},
+        {";", token::TokenTypes::Semicolon}
     };
   }
 
@@ -34,7 +39,7 @@ namespace compiler::lxr {
     a bit I dont want to write an essay should be self explanitory at the end checks
     for EOF
     */
-   
+
     while (file.get(current)) {
         if (std::isspace(static_cast<unsigned char>(current))) continue;
 
@@ -73,6 +78,7 @@ namespace compiler::lxr {
                 tokens.push_back({index->second, symbol});
             } else {
                 std::cerr << "Unknown symbol: " << symbol << '\n';
+                throw std::runtime_error("Unknown symbol: " + symbol);
             }
         }
     }

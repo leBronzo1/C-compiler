@@ -1,5 +1,8 @@
-#include  "../tests/lexer.cpp"
+#include "../include/lexer.hpp"
+#include "../include/codegen.hpp"
+#include "../include/parser.hpp"
 
 int main(int argc, char* argv[]) {
-    return lexer_test(argc, argv);
+    
+    return 0;
 }

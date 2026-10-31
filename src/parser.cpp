@@ -7,7 +7,6 @@
 namespace compiler::psr {
   Parser::Parser(const std::vector<token::Token> &tokens) : tokens(tokens) {}
 
-  // Get the current token without moving forward
   const token::Token &Parser::current() const {
     if (position >= tokens.size()) {
       throw std::runtime_error("Unexpected end of tokens");
@@ -16,7 +15,6 @@ namespace compiler::psr {
     return tokens[position];
   }
 
-  // Check that the current token is the expected type, then move to the next one
   const token::Token &Parser::consume(token::TokenTypes expected) {
     if (current().type != expected) {
       throw std::runtime_error("Unexpected token: " + current().token);
@@ -41,7 +39,6 @@ namespace compiler::psr {
     return program;
   }
 
-  // Parse an int function with no parameters (e.g., int main() { ... })
   std::unique_ptr<ast::Function> Parser::parseFunction() {
     consume(token::TokenTypes::Int);
 
@@ -57,7 +54,6 @@ namespace compiler::psr {
     return function;
   }
 
-  // Parse the statements between braces, currently only int declarations and returns
   std::vector<std::unique_ptr<ast::Statement>> Parser::parseBlock() {
     std::vector<std::unique_ptr<ast::Statement>> statements;
 
@@ -77,7 +73,6 @@ namespace compiler::psr {
     return statements;
   }
 
-  // Parse an initialized int variable (e.g., int x = 5 + 2;)
   std::unique_ptr<ast::Statement> Parser::parseDeclaration() {
     consume(token::TokenTypes::Int);
 
@@ -92,7 +87,6 @@ namespace compiler::psr {
     return std::make_unique<ast::VariableDeclaration>(std::move(name), std::move(value));
   }
 
-  // Parse a return statement and its expression (e.g., return x + 1;)
   std::unique_ptr<ast::Statement> Parser::parseReturn() {
     consume(token::TokenTypes::Return);
 
@@ -103,7 +97,6 @@ namespace compiler::psr {
     return std::make_unique<ast::ReturnStatement>(std::move(value));
   }
 
-  // Parse addition and subtraction using the operators supported by the Lexer
   std::unique_ptr<ast::Expression> Parser::parseExpression() {
     auto left = parsePrimary();
 
@@ -126,7 +119,6 @@ namespace compiler::psr {
     return left;
   }
 
-  // Parse a number, variable name, or expression inside parentheses
   std::unique_ptr<ast::Expression> Parser::parsePrimary() {
     if (current().type == token::TokenTypes::Number) {
       int value = std::stoi(current().token);

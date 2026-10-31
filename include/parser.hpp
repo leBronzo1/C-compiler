@@ -25,7 +25,6 @@ namespace compiler::psr {
 
       std::unique_ptr<ast::Expression> parseExpression(); // Parses addition and subtraction from left to right
       std::unique_ptr<ast::Expression> parsePrimary(); // Parses a number, identifier, or expression inside parentheses
-
     public:
       explicit Parser(const std::vector<token::Token>& tokens); // Constructor for the Parser class, takes the tokens produced by the Lexer
       std::unique_ptr<ast::Program> parse(); // Parses functions until EndOfFile and returns the tree; throws on invalid syntax

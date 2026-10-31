@@ -39,10 +39,13 @@ namespace compiler::lxr {
     char current;
 
     /*
-    Loops through file one char at a time then checks if its a letter (If is number looks 
-    through until space/non letter apperars then searches map for a match otherwise its 
-    considered an identifier) similar for numbers minus and the identifier just read it
-    a bit I dont want to write an essay should be self explanitory
+    Reads the file one character at a time, skipping whitespace. A letter or
+    underscore starts a word, which continues through letters, digits, and
+    underscores. Words found in the keywords map become keyword tokens;
+    all other words become identifiers. Consecutive digits form number tokens.
+    Other characters are matched against the map as single-character symbols;
+    unknown symbols cause an error. After checking for read errors, an
+    end-of-file token is appended to mark the end of the input.
     */
 
     while (file.get(current)) {

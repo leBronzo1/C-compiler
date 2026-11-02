@@ -50,8 +50,7 @@ namespace compiler::ast {
     std::string name; // The name of the variable being declared
     std::unique_ptr<Expression> value; // The expression used to initialize the variable
 
-    VariableDeclaration(std::string name, std::unique_ptr<Expression> value)
-        : name(std::move(name)), value(std::move(value)) {}
+    VariableDeclaration(std::string name, std::unique_ptr<Expression> value) : name(std::move(name)), value(std::move(value)) {}
   };
 
   // ReturnStatement structure representing a return and its value (e.g., return x;)

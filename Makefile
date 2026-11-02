@@ -1,7 +1,7 @@
 CXX = clang++
 CXXFLAGS = -std=c++20 -Wall -Wextra -g -Iinclude
 
-TARGET = compiler
+TARGET = gcx
 
 SRC = $(wildcard src/*.cpp)
 OBJ = $(SRC:.cpp=.o)
